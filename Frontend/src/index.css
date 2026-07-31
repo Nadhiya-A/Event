@@ -1,46 +1,29 @@
-/* src/index.css */
-
-/* Define the exact color palette from your images */
-:root {
-  --bg-main: #f8fafc;
-  --bg-sidebar: #1e1b4b;
-  --bg-card: #ffffff;
-  --text-main: #1e293b;
-  --accent-gradient: linear-gradient(90deg, #ec4899, #f43f5e);
-  --btn-paid: #e6f4ea;
-  --text-paid: #14e364;
+/* Scrollbar */
+html{
+    scroll-behavior:smooth;
+}
+::-webkit-scrollbar{
+    width:10px;
 }
 
-/* Dark theme overrides triggered by the theme state */
-html.dark {
-  --bg-main: #111319;
-  --bg-card: #1a1d26;
-  --text-main: #e2e8f0;
+::-webkit-scrollbar-track{
+    background:#FFF7ED;
 }
 
-/* Basic Layout Classes matching your spec */
-.sidebar {
-  width: 250px;
-  background: var(--bg-sidebar);
-  color: white;
-  height: 100vh;
-  position: fixed;
-  transition: all 0.3s ease;
+::-webkit-scrollbar-thumb{
+    background:linear-gradient(
+        180deg,
+        #FB923C,
+        #F97316
+    );
+    border-radius:20px;
 }
 
-.sidebar.closed {
-  width: 0;
-  transform: translateX(-100%);
+::-webkit-scrollbar-thumb:hover{
+    background:#EA580C;
 }
 
-.gradient-btn {
-  background: var(--accent-gradient);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 12px;
-  cursor: pointer;
+*{
+    scrollbar-width:thin;
+    scrollbar-color:#F97316 #FFF7ED;
 }
-
-
-

@@ -1,0 +1,279 @@
+/* ==========================
+   NAVBAR
+========================== */
+
+.dashboard-navbar-container {
+    height: 80px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 32px;
+
+    background: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    box-shadow: var(--shadow);
+
+    transition: all .25s ease;
+}
+
+/* ==========================
+   LEFT
+========================== */
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+/* ==========================
+   RIGHT
+========================== */
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ==========================
+   COMMON BUTTON STYLE
+========================== */
+
+.hamburger-btn,
+.theme-toggle,
+.notification-btn {
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    background: var(--surface);
+
+    color: var(--primary);
+
+    cursor: pointer;
+
+    box-shadow: var(--shadow);
+
+    transition: all .25s ease;
+}
+
+.hamburger-btn:hover,
+.theme-toggle:hover,
+.notification-btn:hover {
+
+    background: var(--primary);
+
+    color: white;
+
+    transform: translateY(-2px) scale(1.05);
+}
+
+.hamburger-btn:active,
+.theme-toggle:active,
+.notification-btn:active {
+
+    transform: scale(.95);
+}
+
+/* ==========================
+   NOTIFICATION
+========================== */
+
+.notification-btn {
+    position: relative;
+}
+
+.notification-dot {
+
+    position: absolute;
+
+    top: 11px;
+    right: 12px;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    box-shadow: 0 0 10px var(--primary);
+}
+
+/* ==========================
+   USER PROFILE
+========================== */
+
+.user-profile-widget {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 6px 14px;
+
+    border-radius: 16px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    position: relative;
+
+    transition: all .25s ease;
+}
+
+.user-profile-widget:hover {
+
+    background: var(--surface-2);
+}
+
+/* ==========================
+   AVATAR
+========================== */
+
+.avatar-circle {
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    box-shadow: 0 8px 20px rgba(249,115,22,.35);
+}
+
+.profile-name {
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: var(--text);
+}
+
+/* ==========================
+   DROPDOWN
+========================== */
+
+.profile-dropdown {
+
+    position: absolute;
+
+    top: 65px;
+    right: 0;
+
+    width: 220px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow-hover);
+
+    animation: dropdown .22s ease;
+}
+
+@keyframes dropdown {
+
+    from {
+
+        opacity: 0;
+        transform: translateY(10px);
+
+    }
+
+    to {
+
+        opacity: 1;
+        transform: translateY(0);
+
+    }
+}
+
+.dropdown-item {
+
+    padding: 16px 20px;
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.dropdown-item:hover {
+
+    background: var(--surface-2);
+
+    color: var(--primary);
+}
+
+.logout {
+
+    color: var(--danger);
+}
+
+.logout:hover {
+
+    background: rgba(239,68,68,.12);
+
+    color: var(--danger);
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media (max-width:768px){
+
+    .navbar-container{
+
+        padding:0 18px;
+    }
+
+    .profile-name{
+
+        display:none;
+    }
+
+    .nav-right{
+
+        gap:10px;
+    }
+
+    .user-profile-widget{
+
+        padding:4px;
+    }
+
+}

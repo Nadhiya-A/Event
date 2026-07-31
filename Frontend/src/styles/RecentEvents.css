@@ -1,0 +1,248 @@
+.recent-events-card{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+
+    width:100%;
+
+    transition:.35s ease;
+
+}
+
+.recent-events-card:hover{
+
+    box-shadow:var(--shadow-hover);
+
+}
+
+/* ==========================
+   Header
+========================== */
+
+.recent-events-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:28px;
+
+}
+
+.recent-events-header h2{
+
+    font-size:42px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.recent-events-header button{
+
+    border:none;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    padding:12px 24px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.recent-events-header button:hover{
+
+    background:var(--primary-hover);
+
+    transform:translateY(-2px);
+
+}
+
+/* ==========================
+   Table
+========================== */
+
+.events-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.events-table thead th{
+
+    padding:18px 12px;
+
+    text-align:left;
+
+    color:var(--text-light);
+
+    font-size:16px;
+
+    font-weight:600;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.events-table tbody td{
+
+    padding:22px 12px;
+
+    color:var(--text);
+
+    border-bottom:1px solid var(--border);
+
+    vertical-align:middle;
+
+}
+
+.events-table tbody tr{
+
+    transition:
+        background .3s,
+        transform .3s;
+
+}
+
+.events-table tbody tr:hover{
+
+    background:var(--surface-2);
+
+    transform:scale(1.01);
+
+}
+
+/* ==========================
+   Column Widths
+========================== */
+
+.events-table th:nth-child(1),
+.events-table td:nth-child(1){
+
+    width:38%;
+
+}
+
+.events-table th:nth-child(2),
+.events-table td:nth-child(2){
+
+    width:16%;
+
+}
+
+.events-table th:nth-child(3),
+.events-table td:nth-child(3){
+
+    width:18%;
+
+}
+
+.events-table th:nth-child(4),
+.events-table td:nth-child(4){
+
+    width:12%;
+
+    text-align:center;
+
+}
+
+.events-table th:nth-child(5),
+.events-table td:nth-child(5){
+
+    width:16%;
+
+    text-align:right;
+
+}
+
+/* ==========================
+   Status Badge
+========================== */
+
+.status{
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-width:90px;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    color:#fff;
+
+}
+
+.status.open{
+
+    background:#22C55E;
+
+}
+
+.status.closed{
+
+    background:#EF4444;
+
+}
+
+.status.almost-full{
+
+    background:#F59E0B;
+
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media(max-width:900px){
+
+    .recent-events-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .events-table{
+
+        display:block;
+
+        overflow-x:auto;
+
+        white-space:nowrap;
+
+    }
+
+}

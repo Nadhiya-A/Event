@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Zip files
+*.zip
+
+# Environment files
+.env
+
+# Ignore node_modules in all subfolders
+**/node_modules/

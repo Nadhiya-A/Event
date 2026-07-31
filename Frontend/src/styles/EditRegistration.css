@@ -1,0 +1,656 @@
+/* ==========================================================
+   EDIT REGISTRATION
+   PART 1
+========================================================== */
+
+/* ===========================
+   PAGE
+=========================== */
+.edit-registration-page{
+    min-height:calc(100vh - 120px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.edit-registration-container{
+    width:100%;
+    max-width:1080px;
+    margin:0 auto;
+}
+
+/* ===========================
+   BACK BUTTON
+=========================== */
+
+.edit-back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    height:46px;
+    padding:0 22px;
+
+    margin-bottom:18px;
+
+    border:none;
+    border-radius:14px;
+
+    background:var(--surface);
+    color:var(--primary);
+
+    font-size:.95rem;
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s ease;
+}
+
+.edit-back-btn:hover{
+    transform:translateY(-2px);
+    background:var(--surface-2);
+}
+
+/* ===========================
+   MAIN CARD
+=========================== */
+
+.edit-registration-card{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:24px 34px;
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.edit-header{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    text-align:center;
+
+    margin-bottom:18px;
+
+}
+
+.edit-icon{
+
+    width:72px;
+
+    height:72px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin-bottom:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #FFF3E3,
+            #FFD8A7
+        );
+
+    box-shadow:
+        0 16px 38px rgba(249,115,22,.18);
+
+}
+
+.edit-header h1{
+
+    font-size:2.25rem;
+
+    font-weight:800;
+
+    color:var(--heading);
+
+    margin:0;
+
+}
+
+.edit-header p{
+
+    margin-top:10px;
+
+    max-width:560px;
+
+    color:var(--text-light);
+
+    font-size:.96rem;
+
+    line-height:1.65;
+
+}
+
+.edit-divider{
+
+    width:100%;
+
+    height:1px;
+
+    background:var(--border);
+
+    margin-top:20px;
+
+}
+/* ==========================================================
+   FORM
+========================================================== */
+
+.edit-form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+/* ===========================
+   GRID
+=========================== */
+
+.edit-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,minmax(0,1fr));
+
+    gap:18px 24px;
+
+}
+
+/* ===========================
+   FIELD
+=========================== */
+
+.edit-grid > div{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/* ===========================
+   LABEL
+=========================== */
+
+.form-label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+
+    font-size:.94rem;
+
+    font-weight:700;
+
+    color:var(--heading);
+
+}
+
+.form-label svg{
+
+    color:var(--primary);
+
+    flex-shrink:0;
+
+}
+
+/* ===========================
+   INPUTS & SELECTS
+=========================== */
+
+.premium-input{
+
+    width:100%;
+
+    height:50px;
+
+    padding:0 18px;
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    background:var(--surface);
+
+    color:var(--text);
+
+    font-size:15px;
+
+    box-sizing:border-box;
+
+    transition:
+        border-color .25s,
+        box-shadow .25s,
+        transform .2s;
+
+    appearance:none;
+
+}
+
+.premium-input:hover{
+
+    border-color:#FDBA74;
+
+}
+
+.premium-input:focus{
+
+    outline:none;
+
+    border-color:#F97316;
+
+    box-shadow:0 0 0 4px rgba(249,115,22,.12);
+
+}
+
+/* Prevent option text clipping */
+
+select.premium-input{
+
+    padding-right:44px;
+
+    cursor:pointer;
+
+}
+
+select.premium-input option{
+
+    color:#111827;
+
+    background:#fff;
+
+}
+
+/* ===========================
+   BUTTON AREA
+=========================== */
+
+.edit-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    gap:16px;
+
+    margin-top:10px;
+
+}
+
+/* Cancel */
+
+.edit-cancel-btn{
+
+    height:46px;
+
+    min-width:150px;
+
+    padding:0 28px;
+
+    border-radius:14px;
+
+    border:1px solid var(--border);
+
+    background:var(--surface);
+
+    color:var(--text);
+
+    font-size:.95rem;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.edit-cancel-btn:hover{
+
+    background:var(--surface-2);
+
+    transform:translateY(-2px);
+
+}
+
+/* Save */
+
+.edit-save-btn{
+
+    height:48px;
+
+    min-width:230px;
+
+    padding:0 34px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #F97316,
+        #FB923C
+    );
+
+    color:#fff;
+
+    font-size:.95rem;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:
+        0 14px 30px rgba(249,115,22,.28);
+
+}
+
+.edit-save-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 20px 36px rgba(249,115,22,.35);
+
+}
+/* ==========================================================
+   CAPACITY MODAL
+========================================================== */
+
+.capacity-modal{
+
+    width:460px;
+
+    max-width:95%;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:34px;
+
+    text-align:center;
+
+    box-shadow:
+        0 25px 60px rgba(15,23,42,.18);
+
+}
+
+.capacity-icon{
+
+    width:82px;
+
+    height:82px;
+
+    margin:0 auto 20px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:rgba(239,68,68,.12);
+
+    font-size:40px;
+
+}
+
+.capacity-modal h2{
+
+    margin:0 0 10px;
+
+    font-size:1.7rem;
+
+    font-weight:800;
+
+    color:var(--heading);
+
+}
+
+.capacity-modal p{
+
+    margin:0 0 22px;
+
+    color:var(--text-light);
+
+    line-height:1.7;
+
+}
+
+.capacity-info{
+
+    padding:18px;
+
+    margin-bottom:24px;
+
+    border-radius:14px;
+
+    background:rgba(249,115,22,.08);
+
+    border:1px solid rgba(249,115,22,.20);
+
+}
+
+.capacity-info span{
+
+    display:block;
+
+    font-size:.9rem;
+
+    color:var(--text-light);
+
+}
+
+.capacity-info h3{
+
+    margin-top:8px;
+
+    font-size:2rem;
+
+    font-weight:800;
+
+    color:#F97316;
+
+}
+
+.capacity-btn{
+
+    width:100%;
+
+    height:48px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #F97316,
+        #FB923C
+    );
+
+    color:#fff;
+
+    font-size:.95rem;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.capacity-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:1000px){
+
+.edit-registration-container{
+
+    max-width:100%;
+
+}
+
+.edit-registration-card{
+
+    padding:22px;
+
+}
+
+.edit-grid{
+
+    grid-template-columns:1fr;
+
+    gap:16px;
+
+}
+
+.edit-actions{
+
+    flex-direction:column-reverse;
+
+    align-items:stretch;
+
+}
+
+.edit-cancel-btn,
+.edit-save-btn{
+
+    width:100%;
+
+}
+
+}
+
+@media (max-width:768px){
+
+.edit-registration-page{
+
+    padding:12px 0;
+
+}
+
+.edit-back-btn{
+
+    margin-bottom:14px;
+
+}
+
+.edit-header h1{
+
+    font-size:1.9rem;
+
+}
+
+.edit-header p{
+
+    font-size:.9rem;
+
+}
+
+.edit-icon{
+
+    width:64px;
+
+    height:64px;
+
+}
+
+.premium-input{
+
+    height:46px;
+
+}
+
+}
+
+@media (max-width:480px){
+
+.edit-registration-card{
+
+    padding:18px;
+
+    border-radius:18px;
+
+}
+
+.edit-header h1{
+
+    font-size:1.65rem;
+
+}
+
+.edit-header p{
+
+    font-size:.85rem;
+
+}
+
+.form-label{
+
+    font-size:.88rem;
+
+}
+
+.edit-back-btn{
+
+    width:100%;
+
+    justify-content:center;
+
+}
+
+.capacity-modal{
+
+    padding:24px;
+
+}
+
+}

@@ -1,0 +1,194 @@
+.dashboard-insights{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+padding:18px;
+    gap:18px;
+    
+
+    box-shadow:var(--shadow);
+
+    display:flex;
+
+    flex-direction:column;
+
+   
+}
+
+.insights-title{
+
+    color:var(--text);
+
+    font-size:28px;
+
+    font-weight:700;
+
+}
+
+.insight-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.insight-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:var(--primary);
+
+    font-weight:700;
+
+    font-size:18px;
+
+}
+
+.notification-box{
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:12px 15px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.notification-box p{
+
+    color:var(--text);
+
+    font-weight:600;
+
+}
+
+.notification-box small{
+
+    color:var(--text-light);
+
+}
+
+.next-event{
+
+    display:flex;
+
+    gap:18px;
+
+    align-items:center;
+
+}
+
+.event-date-box{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:18px;
+
+    background:rgba(249,115,22,.12);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-direction:column;
+
+}
+
+.event-date-box h3{
+
+    color:var(--primary);
+
+    margin:0;
+
+}
+
+.event-date-box span{
+
+    color:var(--text-light);
+
+}
+
+.next-event h4{
+
+    color:var(--text);
+
+}
+
+.next-event p{
+
+    color:var(--text-light);
+
+}
+
+.payment-box{
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:16px;
+
+}
+
+.payment-box h3{
+
+    color:var(--primary);
+
+    font-size:30px;
+
+}
+
+.payment-box p{
+
+    color:var(--text-light);
+
+}
+
+.activity-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:var(--text);
+
+}
+
+.activity-item svg{
+
+    color:var(--primary);
+
+}
+.insight-item{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px;
+}

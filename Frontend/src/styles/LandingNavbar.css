@@ -1,0 +1,146 @@
+.landing-navbar{
+    position:fixed;
+    top:24px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(94%,1400px);
+    height:84x;
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    background:rgba(15,23,42,.65);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    z-index:1000;
+}
+.landing-logo{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.logo-icon{
+
+    width:54px;
+
+    height:54px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:26px;
+
+    color:white;
+
+    box-shadow:none;
+}
+.landing-logo h2{
+    font-size:2.5rem;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.event{
+
+    color:#0F766E;
+}
+
+.sphere{
+
+    background:linear-gradient(90deg,#F97316,#FB923C);
+
+    background-clip:text;
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+.landing-links{
+
+    display:flex;
+
+    gap:40px;
+}
+
+.landing-links a{
+
+    text-decoration:none;
+
+    color:#475569;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+.event{
+    color:#0f5668;
+}
+
+.sphere{
+    color:#F97316;
+}
+
+.landing-links a:hover{
+
+    color:#F97316;
+}
+.landing-buttons{
+
+    display:flex;
+
+    gap:16px;
+
+    align-items:center;
+}
+
+.brand-logo{
+    width:86px;
+    height:86px;
+    object-fit:contain;
+    flex-shrink:0;
+}
+
+.signin-btn{
+
+    color:#0F172A;
+
+    text-decoration:none;
+
+    font-weight:600;
+}
+
+.signup-btn{
+
+    padding:14px 28px;
+
+    border-radius:14px;
+
+    text-decoration:none;
+
+    font-weight:700;
+
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        #F97316,
+        #EA580C
+    );
+
+    transition:.3s;
+}
+
+.signup-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 30px rgba(249,115,22,.35);
+}

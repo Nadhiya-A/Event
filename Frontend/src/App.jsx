@@ -1,131 +1,199 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
-import Navbar from "./components/Navbar";
-import RegistrationList from "./components/RegistrationList";
-import AddRegistration from "./components/AddRegistration";
-import EditRegistration from "./components/EditRegistration";
-import AddEvent from "./components/AddEvent";
-import Home from "./components/Home"; 
-import About from './components/About';
-import "./App.css";
+import { Routes, Route  , useLocation, useNavigate, Navigate } from 'react-router-dom';
 
+import Navbar from "./components/layout/DashboardNavbar";
+import RegistrationList from "./components/registrations/RegistrationList";
+import AddRegistration from "./components/registrations/AddRegistration";
+import EditRegistration from "./components/registrations/EditRegistration";
+import AddEvent from "./components/events/AddEvent";
+import LandingPage from "./pages/LandingPage";
+import About from './pages/About';
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
+import Events from "./pages/Events";
+import Analytics from "./pages/Analytics";
+import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings";
+import Sidebar from "./components/layout/Sidebar";
+import "./styles/MainLayout.css";
+import AdminRegistrations from "./pages/AdminRegistrations";
+import RoomAllocation from "./pages/RoomAllocation";
 const API_URL = "http://localhost:3000/api/registrations";
 
 function App() {
-  const [registrations, setRegistrations] = useState([]);
-  // 1. Defined your master events collection array state
+
+  // This only runs once when the app boots
+const [currentUser, setCurrentUser] = useState(() => {
+  const savedUser = localStorage.getItem('app_user');
+  return savedUser ? JSON.parse(savedUser) : null;
+});
+
+  const [token, setToken] = useState(() => localStorage.getItem('app_token') || '');
+
   const [events, setEvents] = useState([]); 
-  const [search, setSearch] = useState('');
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  
   
   const location = useLocation();
   const navigate = useNavigate();
 
+  
+  // 🔄 SCHEMA SYNCHRONIZATION FIX: Explicitly matching your backend keys
   const [formData, setFormData] = useState({
     userName: '',
-    eventName: '',
-    eventDate: '', 
-    roomNo: '',    
-    ticketCount: 1,
+    eventId: '',      
+    roomNumber: '',   // Aligned perfectly with backend model definition
+    ticketCount: 1,   // Aligned perfectly with backend model definition
     contact: '',
     paymentStatus: 'Not Paid'
   });
 
   const [editingId, setEditingId] = useState(null);
-  const [deleteModal, setDeleteModal] = useState({ show: false, targetId: null });
   const [roomErrorModal, setRoomErrorModal] = useState({ show: false, message: '', availableSeats: 0 });
+  
+  const [isMobile, setIsMobile] = useState(
+  window.innerWidth <= 768
+);
 
-  useEffect(() => {
-    fetchDataRecords();
-    fetchEventWorkspaceRecords(); // Fetch events layout configuration on startup
-  }, []);
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 768);
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    fetchDataRecords();
+    if (window.innerWidth > 768) {
+      setIsSidebarOpen(true);
+    }
   };
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark-theme');
-    } else {
-      document.documentElement.classList.remove('dark-theme');
-    }
-  }, [isDarkMode]);
+  window.addEventListener("resize", handleResize);
 
-  const fetchDataRecords = async () => {
+  return () =>
+    window.removeEventListener(
+      "resize",
+      handleResize
+    );
+}, []);
+
+  const handleSignIn = async (credentials) => {
     try {
-      const response = await fetch(`${API_URL}?search=${search.trim()}`);
-      const data = await response.json();
-      setRegistrations(data);
+      const res = await fetch('http://localhost:3000/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials)
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        
+        localStorage.setItem('app_token', data.token);
+        localStorage.setItem('app_user', JSON.stringify(data.user));
+        
+        setToken(data.token);
+        setCurrentUser(data.user); 
+        navigate('/dashboard');
+      } else {
+        alert("Authentication failed. Please check your credentials.");
+      }
     } catch (err) {
-      console.error("Failed fetching records matrix: ", err);
+      console.error("Sign-in pipeline exception thrown: ", err);
     }
   };
+const handleSignup = async (userData) => {
+  try {
+    const response = await fetch(
+      "http://localhost:3000/api/auth/signup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      }
+    );
 
-  // Helper API fetch pipeline to pull created rooms and capacities
+    const data = await response.json();
+
+    if (response.ok) {
+      alert("Registration Successful!");
+      navigate("/signin");
+    } else {
+      alert(data.message);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Server Error");
+  }
+};
+  const handleSignOut = () => {
+    setCurrentUser(null);
+    setToken('');
+    localStorage.removeItem('app_user');
+    localStorage.removeItem('app_token');
+    handleClearForm();
+    navigate('/signin');
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchEventWorkspaceRecords();
+    }
+  }, [token]);
+
+  const authenticatedFetch = async (url, options = {}) => {
+    const headers = {
+      ...options.headers,
+      'Authorization': `Bearer ${token}`,
+    };
+    if (!(options.body instanceof FormData) && options.body) {
+      headers['Content-Type'] = 'application/json';
+    }
+    return fetch(url, { ...options, headers });
+  };
+
   const fetchEventWorkspaceRecords = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/events");
+      const response = await authenticatedFetch("http://localhost:3000/api/events");
       if (response.ok) {
         const data = await response.json();
         setEvents(data);
       }
     } catch (err) {
-      console.error("Error connecting to master events server: ", err);
+      console.error("Error connecting to event matrix: ", err);
     }
   };
 
   const handleClearForm = () => {
-    setFormData({ 
-      userName: '', 
-      eventName: '', 
-      eventDate: '', 
-      roomNo: '', 
-      ticketCount: 1, 
-      contact: '', 
-      paymentStatus: 'Not Paid' 
-    });
+    setFormData({ userName: '', eventId: '', roomNumber: '', ticketCount: 1, contact: '', paymentStatus: 'Not Paid' });
     setEditingId(null);
   };
+  const handleCreateSubmit = async (data) => {
 
-  const handleCreateSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      
-      const result = await response.json();
-      
-      if (response.ok) {
-        handleClearForm();
-        navigate('/dashboard');
-        fetchDataRecords();
-      } else {
-        setRoomErrorModal({ 
-          show: true, 
-          message: result.message || "Room is already filled", 
-          availableSeats: result.availableSeats ?? 0 
-        });
-      }
-    } catch (err) {
-      console.error(err);
+  try {
+    const response = await authenticatedFetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      handleClearForm();
+      navigate("/dashboard");
+    } else {
+      alert(result.message);
     }
-  };
-
+  } catch (err) {
+    console.error(err);
+  }
+};
   const handleEditInitialize = (item) => {
     setEditingId(item._id);
     setFormData({
-      _id: item._id, // Embed original ID so validation can isolate editing counts
+      _id: item._id,
       userName: item.userName,
-      eventName: item.eventName || '',
-      eventDate: item.eventDate ? item.eventDate.split('T')[0] : '', 
-      roomNo: item.roomNo || '',
-      ticketCount: item.ticketCount,
+      eventId: item.eventId?._id || item.eventId || '',
+      roomNumber: item.roomNumber || '',
+      ticketCount: item.ticketCount || 1,
       contact: item.contact,
       paymentStatus: item.paymentStatus
     });
@@ -133,200 +201,265 @@ function App() {
   };
 
   const handleUpdateSubmit = async (e) => {
-    try {
-      const response = await fetch(`${API_URL}/${editingId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      
-      const result = await response.json();
+  if (e && e.preventDefault) e.preventDefault();
 
-      if (response.ok) {
-        handleClearForm();
-        navigate('/dashboard'); 
-        fetchDataRecords();
-      } else {
-        setRoomErrorModal({ 
-          show: true, 
-          message: result.message || "Room is already filled", 
-          availableSeats: result.availableSeats ?? 0 
-        });
+  try {
+    const response = await authenticatedFetch(
+      `${API_URL}/${editingId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          userName: formData.userName,
+          eventId: formData.eventId,
+          roomNumber: formData.roomNumber,
+          ticketCount: Number(formData.ticketCount),
+          contact: formData.contact,
+          paymentStatus: formData.paymentStatus,
+        }),
       }
-    } catch (err) {
-      console.error(err);
+    );
+
+    const result = await response.json();
+
+    if (response.ok) {
+      handleClearForm();
+      navigate("/dashboard");
+    } else {
+      alert(result.message);
     }
+  } catch(err){
+   console.error(err);
+}
+};
+
+  const ProtectedRoute = ({ children, allowedRoles = [] }) => {
+    if (!token) return <Navigate to="/signin" replace />;
+    if (allowedRoles.length > 0 && !allowedRoles.includes(currentUser?.role)) {
+      return <Navigate to="/" replace />;
+    }
+    return children;
   };
 
-  const triggerDeletePrompt = (id) => {
-    setDeleteModal({ show: true, targetId: id });
-  };
+  const isPublicPage =
+  location.pathname === "/" ||
+  location.pathname === "/signin" ||
+  location.pathname === "/signup";
 
-  const executeDeleteAction = async () => {
-    try {
-      const response = await fetch(`${API_URL}/${deleteModal.targetId}`, { method: 'DELETE' });
-      if (response.ok) {
-        setDeleteModal({ show: false, targetId: null });
-        fetchDataRecords();
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const [theme, setTheme] = useState(() => {
+  return localStorage.getItem("theme") ?? "light";
+});
+
+useEffect(() => {
+  document.documentElement.setAttribute(
+    "data-theme",
+    theme
+  );
+
+  console.log("Theme changed:", theme);
+
+  localStorage.setItem("theme", theme);
+}, [theme]);
+
+const toggleTheme = () => {
+  setTheme(current =>
+    current === "light"
+      ? "dark"
+      : "light"
+  );
+};
 
   return (
-    <div className="container">
+    <>
+    {isPublicPage ? (
+        <div className="auth-wrapper">
+          
+            <Routes>
+
+  <Route
+    path="/"
+    element={
+        <LandingPage
+            theme={theme}
+            toggleTheme={toggleTheme}
+        />
+    }
+/>
+  <Route
+    path="/signin"
+    element={
+      !token
+        ? <SignIn onLoginSuccess={handleSignIn} />
+        : <Navigate to="/dashboard" replace />
+    }
+  />
+
+  <Route
+    path="/signup"
+    element={
+      !token
+        ? <SignUp onSignup={handleSignup} />
+        : <Navigate to="/dashboard" replace />
+    }
+  />
+
+</Routes>
+        </div>
+      ) : (
+        <div className="master-layout-frame">
+          <div className="app-shell">
+
+  {isSidebarOpen && isMobile && (
+    <div
+      className="sidebar-overlay"
+      onClick={() => setIsSidebarOpen(false)}
+    />
+  )}
+
+  {isSidebarOpen && (
+   <Sidebar
+    onSignOut={handleSignOut}
+    currentUser={currentUser}
+    isSidebarOpen={isSidebarOpen}
+/>
+  )}
+
+  <div
+    className="main-workspace">
       <Navbar
-        currentView={location.pathname}
-        isDarkMode={isDarkMode}
-        setIsDarkMode={setIsDarkMode}
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
-        setView={() => navigate('/dashboard')} 
-        onResetForm={handleClearForm}
+    currentUser={currentUser}
+    isSidebarOpen={isSidebarOpen}
+    setIsSidebarOpen={setIsSidebarOpen}
+    onSignOut={handleSignOut}
+    toggleTheme={toggleTheme}
+    theme={theme}
+/>
+             <main className="page-content">
+ <Routes>
+
+  <Route
+    path="/dashboard"
+    element={
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    }
+  />
+
+<Route
+  path="/events"
+  element={
+    <ProtectedRoute>
+      <Events currentUser={currentUser} />
+    </ProtectedRoute>
+  }
+/>
+    <Route
+    path="/registrations"
+    element={
+    <ProtectedRoute>
+      <RegistrationList
+        events={events}
+        user={currentUser}
+        onEdit={handleEditInitialize}
       />
+    </ProtectedRoute>
+  }
+/>
+    <Route
+  path="/analytics"
+  element={
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <Analytics />
+    </ProtectedRoute>
+  }
+/>
 
-      <div style={{ display: 'flex', flex: 1, flexDirection: window.innerWidth < 768 ? 'column' : 'row'}}>
-        
-        <aside className="app-left-sidebar" style={{
-          width: isSidebarOpen ? (window.innerWidth < 768 ? '100%' : '260px') : '0px',
-          padding: isSidebarOpen ? '30px 15px' : '30px 0px',
-          opacity: isSidebarOpen ? 1 : 0,
-          overflow: 'hidden',
-          display: window.innerWidth < 768 ? 'row' : 'column', 
-          background: 'var(--sidebar-gradient)',
-          gap: '10px',
-          borderRight: isSidebarOpen ? '1px solid var(--border)' : '0px solid transparent',
-          justifyContent: window.innerWidth < 768 ? 'space-around' : 'flex-start',
-          transition: 'width 0.3s ease, padding 0.3s ease, opacity 0.2s ease, border-color 0.3s ease',
-          whiteSpace: 'nowrap'
-        }}>
-          
-          <Link 
-            to="/" 
-            className={`sidebar-link-item method-nav-btn ${location.pathname === '/' ? 'active-tab' : ''}`}
-            style={{ textDecoration: 'none', padding: '12px 15px', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}
-          >
-            <span style={{ fontSize: '1.2rem', display: 'inline-flex', alignItems: 'center' }}>🏡</span> Home Overview
-          </Link>
+<Route
+  path="/admin-registrations"
+  element={
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <AdminRegistrations />
+    </ProtectedRoute>
+  }
+/>
 
-          <Link 
-            to="/dashboard" 
-            className={`sidebar-link-item method-nav-btn ${location.pathname === '/dashboard' ? 'active-tab' : ''}`}
-            style={{ textDecoration: 'none', padding: '12px 15px', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}
-          >
-            <span style={{ fontSize: '1.2rem', display: 'inline-flex', alignItems: 'center' }}>📊</span> Registration List
-          </Link>
+  <Route
+    path="/add-registration"
+    element={
+      <ProtectedRoute>
+        <AddRegistration
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handleCreateSubmit}
+          onCancel={() => navigate("/dashboard")}
+          events={events}
+        />
+      </ProtectedRoute>
+    }
+  />
 
-          <Link 
-            to="/add-registration" 
-            className={`sidebar-link-item method-nav-btn ${location.pathname === '/add-registration' ? 'active-tab' : ''}`}
-            style={{ textDecoration: 'none', padding: '12px 15px', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}
-          >
-            <span style={{ fontSize: '1.2rem', display: 'inline-flex', alignItems: 'center' }}>➕</span> Add Registration
-          </Link>
+  <Route
+    path="/edit"
+    element={
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <EditRegistration
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handleUpdateSubmit}
+          onCancel={() => navigate("/dashboard")}
+          events={events}
+        />
+      </ProtectedRoute>
+    }
+  />
 
-          <Link
-            to="/add-event"
-            className={`sidebar-link-item method-nav-btn ${location.pathname === '/add-event' ? 'active-tab' : ''}`}
-            style={{ textDecoration: 'none', padding: '12px 15px', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}
-          >
-            <span style={{ fontSize: '1.2rem', display: 'inline-flex', alignItems: 'center' }}>📅</span> Add Event
-          </Link>
+  <Route
+    path="/add-event"
+    element={
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <AddEvent />
+      </ProtectedRoute>
+    }
+  />
 
-          <Link 
-            to="/about" 
-            className={`sidebar-link-item method-nav-btn ${location.pathname === '/about' ? 'active-tab' : ''}`}
-            style={{ textDecoration: 'none', padding: '12px 15px', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}
-          >
-            <span style={{ fontSize: '1.2rem', display: 'inline-flex', alignItems: 'center' }}>ℹ️</span> About
-          </Link>
-        </aside>
-          
-          
-        <div className="content" style={{ flex: 1, padding: '40px' }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
+    <Route
+  path="/room-allocation"
+  element={
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <RoomAllocation />
+    </ProtectedRoute>
+  }
+/>
 
-            <Route path="/dashboard" element={
-              <RegistrationList 
-                registrations={registrations} 
-                search={search} 
-                setSearch={setSearch} 
-                onSearchSubmit={handleSearchSubmit}
-                onEdit={handleEditInitialize}
-                onDeleteTrigger={triggerDeletePrompt}
-              />
-            } />
+  <Route
+    path="/profile"
+    element={
+      <ProtectedRoute>
+        <Profile currentUser={currentUser} />
+      </ProtectedRoute>
+    }
+  />
+ <Route
+  path="/settings"
+  element={
+    <ProtectedRoute>
+      <Settings />
+    </ProtectedRoute>
+  }
+/>
 
-            <Route path="/add-registration" element={
-              <AddRegistration 
-                formData={formData} 
-                setFormData={setFormData} 
-                onSubmit={handleCreateSubmit}
-                onCancel={() => navigate('/dashboard')}
-              />
-            } />
+  <Route path="/about" element={<About />} />
 
-            {/* 2. Added events array data as a prop into your target Route configuration here */}
-            <Route path="/edit" element={
-              <EditRegistration 
-                formData={formData} 
-                setFormData={setFormData} 
-                onSubmit={handleUpdateSubmit}
-                onCancel={() => navigate('/dashboard')}
-                events={events} // 👈 Passed safely right here!
-                registrations={registrations}
-              />
-            } />
+</Routes>
 
-            <Route path="/add-event" element={<AddEvent />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
-        </div>
-      </div>
 
-      {deleteModal.show && (
-        <div className="modal-overlay">
-          <div className="modal-content-box">
-            <div className="modal-icon">❗</div>
-            <h3>Confirm Delete</h3>
-            <p style={{ color: 'var(--text-muted)', margin: '12px 0' }}>
-              Are you sure you want to delete this registration?
-            </p>
-            <div className="modal-buttons">
-              <button className="action-btn-delete" onClick={executeDeleteAction}>Delete</button>
-              <button 
-                className="action-btn-edit" 
-                style={{ background: 'var(--input-bg)', color: 'var(--text-main)', border: '1px solid var(--border)' }}
-                onClick={() => setDeleteModal({ show: false, targetId: null })}
-              >
-                Cancel
-              </button>
-            </div>
+
+            </main>
+          </div>
           </div>
         </div>
       )}
-
-      {roomErrorModal.show && (
-        <div className="modal-overlay">
-          <div className="modal-content-box" style={{ textAlign: 'center' }}>
-            <div className="modal-icon" style={{ color: '#d9534f' }}>⚠️</div>
-            <h3>Room Allocation Warning</h3>
-            <p style={{ margin: '12px 0', color: 'var(--text-main)' }}>{roomErrorModal.message}</p>
-            <p style={{ fontWeight: 'bold', color: '#f0ad4e' }}>Available Seats left: {roomErrorModal.availableSeats}</p>
-            <button 
-              className="action-btn-edit" 
-              onClick={() => setRoomErrorModal({ show: false, message: '', availableSeats: 0 })}
-              style={{ marginTop: '15px', background: 'var(--brand-primary)', color: '#fff', cursor: 'pointer' }}
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      )}
-
-    </div>
+    </>
   );
 }
 

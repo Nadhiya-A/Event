@@ -1,0 +1,288 @@
+/* =========================================================
+   EVENTSPHERE REGISTRATIONS TABLE
+========================================================= */
+
+.registration-table-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:26px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    animation:fadeUp .35s ease;
+}
+
+/* =========================================================
+TABLE
+========================================================= */
+
+.registration-table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+.registration-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1150px;
+}
+
+/* ================= HEADER ================= */
+
+.registration-table thead{
+    background:var(--surface-2);
+}
+
+.registration-table th{
+    padding:20px 24px;
+
+    text-align:center;
+
+    font-size:.82rem;
+    font-weight:700;
+
+    text-transform:uppercase;
+    letter-spacing:.08em;
+
+    color:var(--text-light);
+
+    border-bottom:1px solid var(--border);
+}
+
+.registration-table th:first-child{
+    text-align:left;
+}
+
+/* ================= BODY ================= */
+
+.registration-table td{
+    padding:20px 24px;
+
+    text-align:center;
+    vertical-align:middle;
+
+    color:var(--text);
+
+    border-bottom:1px solid var(--border);
+
+    transition:.25s;
+}
+
+.registration-table td:first-child{
+    text-align:left;
+}
+
+.registration-table tbody tr{
+    transition:.25s;
+}
+
+.registration-table tbody tr:hover{
+    background:var(--surface-2);
+}
+
+/* =========================================================
+USER CELL
+========================================================= */
+
+.user-cell{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.user-avatar{
+
+    width:48px;
+    height:48px;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(
+        135deg,
+        #F97316,
+        #FB923C
+    );
+
+    color:#fff;
+
+    font-weight:700;
+
+    box-shadow:
+        0 12px 22px rgba(249,115,22,.25);
+}
+
+.user-name{
+    font-weight:700;
+    color:var(--heading);
+}
+
+.user-email{
+    margin-top:4px;
+
+    font-size:.85rem;
+
+    color:var(--text-light);
+}
+/* =========================================================
+ROOM BADGE
+========================================================= */
+
+.room-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    background:rgba(249,115,22,.10);
+    border:1px solid rgba(249,115,22,.18);
+
+    color:var(--primary);
+
+    font-size:.82rem;
+    font-weight:700;
+
+    white-space:nowrap;
+}
+
+.room-badge svg{
+    width:15px;
+    height:15px;
+}
+
+/* =========================================================
+PAYMENT STATUS
+========================================================= */
+
+.status-badge{
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    min-width:120px;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    font-size:.82rem;
+    font-weight:700;
+}
+
+.status-paid{
+
+    background:rgba(34,197,94,.15);
+
+    color:#22C55E;
+
+    border:1px solid rgba(34,197,94,.25);
+
+}
+
+.status-pending{
+
+    background:rgba(249,115,22,.14);
+
+    color:#F97316;
+
+    border:1px solid rgba(249,115,22,.25);
+
+}
+
+/* =========================================================
+ACTION BUTTONS
+========================================================= */
+
+.actions-column{
+    text-align:center;
+}
+
+.action-buttons{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+}
+
+.table-action-btn{
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    height:40px;
+    min-width:96px;
+
+    border:none;
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:.82rem;
+    font-weight:700;
+
+    transition:.25s ease;
+}
+
+.table-action-btn svg{
+    width:16px;
+    height:16px;
+}
+
+.table-action-btn:hover{
+    transform:translateY(-2px);
+}
+
+.table-action-btn.edit{
+
+    background:linear-gradient(
+        135deg,
+        #3B82F6,
+        #2563EB
+    );
+
+    color:#fff;
+
+    box-shadow:
+        0 10px 20px rgba(59,130,246,.25);
+
+}
+
+.table-action-btn.delete{
+
+    background:linear-gradient(
+        135deg,
+        #EF4444,
+        #DC2626
+    );
+
+    color:#fff;
+
+    box-shadow:
+        0 10px 20px rgba(239,68,68,.25);
+
+}
+
+.table-action-btn.edit:hover{
+
+    box-shadow:
+        0 16px 28px rgba(59,130,246,.35);
+
+}
+
+.table-action-btn.delete:hover{
+
+    box-shadow:
+        0 16px 28px rgba(239,68,68,.35);
+
+}

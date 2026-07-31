@@ -1,0 +1,286 @@
+.experience-section{
+    position:relative;
+
+    overflow:hidden;
+
+    padding:130px 7%;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    align-items:center;
+
+    gap:90px;
+
+    background:linear-gradient(
+        180deg,
+        #fffdfb,
+        #fff7f1
+    );
+}
+.experience-section::before{
+    content:"";
+    position:absolute;
+
+    width:420px;
+    height:420px;
+
+    left:-150px;
+    top:40px;
+
+    border-radius:50%;
+
+    background:#F97316;
+
+    opacity:.08;
+
+    filter:blur(120px);
+
+    pointer-events:none;
+}
+
+.experience-section::after{
+    content:"";
+    position:absolute;
+
+    width:350px;
+    height:350px;
+
+    right:-120px;
+    bottom:-50px;
+
+    border-radius:50%;
+
+    background:#0F4C5C;
+
+    opacity:.07;
+
+    filter:blur(120px);
+
+    pointer-events:none;
+}
+.experience-left{
+    max-width:560px;
+}
+
+.experience-tag{
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:999px;
+    background:#FFF1E8;
+    color:#F97316;
+    font-size:.85rem;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:22px;
+}
+
+.experience-left h2{
+    font-size:clamp(2.8rem,5vw,4.2rem);
+    line-height:1.1;
+    color:#111827;
+    margin-bottom:22px;
+    font-weight:800;
+}
+
+.experience-left>p{
+    color:#64748B;
+    font-size:1.08rem;
+    line-height:1.9;
+    margin-bottom:50px;
+}
+
+.experience-list{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+.experience-item{
+    display:flex;
+    gap:20px;
+    padding:24px;
+    border-radius:22px;
+  background:var(--surface);
+border:1px solid var(--border);
+    transition:.35s;
+    cursor:pointer;
+    box-shadow:0 10px 30px rgba(15,23,42,.05);
+}
+
+.experience-item:hover{
+    transform:translateX(8px);
+    border-color:#F97316;
+    box-shadow:0 20px 45px rgba(249,115,22,.15);
+}
+
+.experience-icon{
+    width:58px;
+    height:58px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+background:rgba(249,115,22,.12);
+    color:#F97316;
+    flex-shrink:0;
+}
+
+.experience-item h4{
+    font-size:1.2rem;
+    margin-bottom:10px;
+    color:#111827;
+}
+
+.experience-item p{
+    color:#64748B;
+    line-height:1.7;
+}
+
+.experience-right{
+    position:relative;
+    overflow:hidden;
+
+    z-index:2;
+
+    padding:22px;
+    max-width:720px;
+    margin-left:auto;
+
+    border-radius:36px;
+
+    background:color-mix(in srgb, var(--surface) 82%, transparent);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid var(--border);
+
+    box-shadow:0 30px 70px rgba(15,23,42,.08);
+}
+
+.experience-right::before{
+    content:"";
+    position:absolute;
+
+    width:320px;
+    height:320px;
+
+    top:-60px;
+    right:-80px;
+
+    border-radius:50%;
+
+    background:rgba(249,115,22,.18);
+
+    filter:blur(70px);
+
+    opacity:.8;
+
+    z-index:-1;
+}
+.experience-right:hover img{
+    transform:scale(1.02);
+}
+
+/* ---------- Dark ---------- */
+
+html[data-theme="dark"] .experience-section{
+
+    background:linear-gradient(
+        180deg,
+        #0f172a,
+        #111827
+    );
+
+}
+html[data-theme="dark"] .experience-right{
+
+    background:rgba(20,20,20,.55);
+
+    border-color:rgba(255,255,255,.08);
+
+}
+html[data-theme="dark"] .experience-left h2{
+    color:white;
+}
+
+html[data-theme="dark"] .experience-left>p,
+html[data-theme="dark"] .experience-item p{
+    color:#CBD5E1;
+}
+
+html[data-theme="dark"] .experience-item{
+    background:#1E293B;
+    border-color:#334155;
+}
+
+html[data-theme="dark"] .experience-item h4{
+    color:white;
+}
+
+html[data-theme="dark"] .experience-icon{
+    background:#2A3648;
+}
+
+/* ---------- Responsive ---------- */
+
+@media(max-width:1100px){
+
+.experience-section{
+    grid-template-columns:1fr;
+}
+
+.experience-right{
+    order:-1;
+}
+
+.experience-left{
+    max-width:100%;
+}
+
+}
+
+@media(max-width:768px){
+
+.experience-section{
+    padding:100px 24px;
+}
+
+.experience-left h2{
+    font-size:2.5rem;
+}
+
+.experience-right img{
+    min-height:420px;
+}
+
+}
+
+@media(max-width:500px){
+
+.experience-item{
+    flex-direction:column;
+}
+
+.experience-icon{
+    width:52px;
+    height:52px;
+}
+
+}
+@keyframes floatImage{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+}
+
+.experience-right{
+    animation:floatImage 6s ease-in-out infinite;
+}

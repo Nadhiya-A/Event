@@ -1,145 +1,247 @@
-var express = require('express');
-const mongoose = require('mongoose'); 
+const express = require('express');
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 const Registration = require('../models/Registration');
-const Event = require('../models/Event'); 
-var router = express.Router();
+const Event = require('../models/Event');
+const { verifyToken } = require('../middleware/auth');
 
-/* GET Base Endpoint testing */
-router.get('/', function(req, res, next) {
-  res.json({ message: 'Express Server API Active' });
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key';
+
+// ==========================================
+// 🔑 AUTHENTICATION ENDPOINTS
+// ==========================================
+
+router.post('/auth/signup', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+      return res.status(400).json({
+        message: "Email is already registered."
+      });
+    }
+
+    const newUser = new User({
+      name,
+      email,
+      password,
+      role: "user"
+    });
+
+    await newUser.save();
+
+    res.status(201).json({
+      message: "Registration successful! You can now log in."
+    });
+
+  } catch (err) {
+    console.error("❌ Sign-Up Error:", err);
+
+    res.status(500).json({
+      message: "Server registration error.",
+      error: err.message
+    });
+  }
 });
 
-// 1. CREATE REGISTRATION WITH ACCURATE DYNAMIC CAPACITY CHECK
-router.post('/registrations', async (req, res) => {
-  const { userName, eventName, eventDate, roomNo, ticketCount, contact, paymentStatus } = req.body;
-
+router.post('/auth/signin', async (req, res) => {
   try {
-    const targetEvent = await Event.findOne({ eventName });
-    if (!targetEvent) {
-      return res.status(404).json({ success: false, message: "Target event template not found" });
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: "Invalid email or password match." });
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid email or password match." });
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '2h' }
+    );
+
+    res.json({
+      token,
+      user: { id: user._id, name: user.name, email: user.email, role: user.role }
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Sign-in endpoint validation failure." });
+  }
+});
+
+// ==========================================
+// 📊 REGISTRATION WORKSPACE ENDPOINTS
+// ==========================================
+router.get("/registrations", verifyToken, async (req, res) => {
+  try {
+    const { search = "" } = req.query;
+
+    // Get registrations with populated event
+    let registrations = await Registration.find()
+      .populate("eventId");
+
+    // User should only see their own registrations
+    if (req.user.role !== "admin") {
+      registrations = registrations.filter(
+        reg => reg.userId.toString() === req.user.id
+      );
     }
 
-    const targetRoom = targetEvent.rooms.find(r => r.roomNo === roomNo);
-    if (!targetRoom) {
-      return res.status(404).json({ success: false, message: `Room '${roomNo}' is not assigned to this event` });
-    }
+    // Search
+    if (search.trim()) {
+      const keyword = search.toLowerCase();
 
-    const totalMaxCapacity = Number(targetRoom.capacity || 0);
-
-    const bookedSeatsAggregation = await Registration.aggregate([
-      { $match: { eventName, roomNo } },
-      { $group: { _id: null, totalSeats: { $sum: "$ticketCount" } } }
-    ]);
-
-    const currentBookedSeats = bookedSeatsAggregation.length > 0 ? bookedSeatsAggregation[0].totalSeats : 0;
-    const availableSeatsLeft = totalMaxCapacity - currentBookedSeats;
-    const requestedSeatsCount = Number(ticketCount || 1);
-
-    if (requestedSeatsCount > availableSeatsLeft) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Room is already filled",
-        availableSeats: availableSeatsLeft >= 0 ? availableSeatsLeft : 0 
+      registrations = registrations.filter(reg => {
+        return (
+          reg.userName?.toLowerCase().includes(keyword) ||
+          reg.contact?.toLowerCase().includes(keyword) ||
+          reg.roomNumber?.toString().toLowerCase().includes(keyword) ||
+          reg.eventId?.eventName?.toLowerCase().includes(keyword) ||
+          reg.paymentStatus?.toLowerCase().includes(keyword)
+        );
       });
+    }
+
+    res.json(registrations);
+
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      message: "Failed to fetch registrations."
+    });
+  }
+});
+
+router.post('/registrations', verifyToken, async (req, res) => {
+  try {
+    const { userName, ticketCount, contact, paymentStatus, eventId, roomNumber } = req.body;
+
+    const event = await Event.findById(eventId);
+    if (!event) return res.status(404).json({ message: "Target event profile not found." });
+
+    // Safely look up the sub-room without crashing
+    const targetRoom = event.rooms.find(r => r.roomNo === roomNumber);
+    if (!targetRoom) return res.status(400).json({ message: `Selected room "${roomNumber}" does not exist for this event.` });
+
+    // Aggregate capacities safely
+    const currentBookings = await Registration.aggregate([
+      { $match: { eventId: event._id, roomNumber: roomNumber } },
+      { $group: { _id: null, total: { $sum: "$ticketCount" } } }
+    ]);
+    const bookedCount = currentBookings.length > 0 ? currentBookings[0].total : 0;
+
+    if (bookedCount + parseInt(ticketCount, 10) > targetRoom.capacity) {
+      return res.status(400).json({ message: `Registration blocked. Room ${roomNumber} has reached its capacity limit (${targetRoom.capacity} seats max).` });
     }
 
     const newRegistration = new Registration({
-      userName, eventName, eventDate, roomNo, ticketCount: requestedSeatsCount, contact, paymentStatus
+      userId: req.user.id,
+      userName,
+      ticketCount: parseInt(ticketCount, 10),
+      contact,
+      paymentStatus: paymentStatus === 'COMPLETED' || paymentStatus === 'Paid' ? 'Paid' : 'Not Paid',
+      eventId,
+      roomNumber
     });
 
-    await newRegistration.save();
-    res.status(201).json({ success: true, data: newRegistration });
+    const savedRecord = await newRegistration.save();
+    res.status(201).json(savedRecord);
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    console.error("❌ Registration POST Error:", err);
+    res.status(400).json({ message: "Data format criteria constraints failed processing.", error: err.message });
   }
 });
 
-// 2. UPDATE REGISTRATION WITH DYNAMIC CAPACITY CHECK
-router.put('/registrations/:id', async (req, res) => {
-  const { id } = req.params;
-  const { userName, eventName, eventDate, roomNo, ticketCount, contact, paymentStatus } = req.body;
-
+// UPDATE REGISTRATION
+router.put("/registrations/:id", verifyToken, async (req, res) => {
   try {
-    const targetEvent = await Event.findOne({ eventName });
-    if (!targetEvent) {
-      return res.status(404).json({ success: false, message: "Target event template not found" });
-    }
+    const registration = await Registration.findById(req.params.id);
 
-    const targetRoom = targetEvent.rooms.find(r => r.roomNo === roomNo);
-    if (!targetRoom) {
-      return res.status(404).json({ success: false, message: `Room '${roomNo}' is not assigned to this event` });
-    }
-
-    const totalMaxCapacity = Number(targetRoom.capacity || 0);
-
-    const bookedSeatsAggregation = await Registration.aggregate([
-      { 
-        $match: { 
-          eventName, 
-          roomNo, 
-          _id: { $ne: new mongoose.Types.ObjectId(id) } 
-        } 
-      },
-      { $group: { _id: null, totalSeats: { $sum: "$ticketCount" } } }
-    ]);
-
-    const currentBookedSeats = bookedSeatsAggregation.length > 0 ? bookedSeatsAggregation[0].totalSeats : 0;
-    const availableSeatsLeft = totalMaxCapacity - currentBookedSeats;
-    const requestedSeatsCount = Number(ticketCount || 1);
-
-    if (requestedSeatsCount > availableSeatsLeft) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Room is already filled",
-        availableSeats: availableSeatsLeft >= 0 ? availableSeatsLeft : 0 
+    if (!registration) {
+      return res.status(404).json({
+        message: "Registration not found."
       });
     }
 
-    const updatedReg = await Registration.findByIdAndUpdate(
-      id, 
-      { userName, eventName, eventDate, roomNo, ticketCount: requestedSeatsCount, contact, paymentStatus },
-      { new: true }
-    );
+    // Only admin or owner can edit
+    if (
+      req.user.role !== "admin" &&
+      registration.userId.toString() !== req.user.id
+    ) {
+      return res.status(403).json({
+        message: "Unauthorized action."
+      });
+    }
 
-    res.status(200).json({ success: true, data: updatedReg });
+    const {
+      userName,
+      ticketCount,
+      contact,
+      paymentStatus,
+      eventId,
+      roomNumber
+    } = req.body;
+
+    registration.userName = userName;
+    registration.ticketCount = ticketCount;
+    registration.contact = contact;
+    registration.paymentStatus = paymentStatus;
+    registration.eventId = eventId;
+    registration.roomNumber = roomNumber;
+
+
+    await registration.save();
+
+    res.json(registration);
+
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    console.error(err);
+
+    res.status(500).json({
+      message: "Failed to update registration."
+    });
   }
 });
 
-// 3. GET ALL REGISTRATIONS WITH LIVE FILTER SEARCH MATCHING
-router.get('/registrations', async (req, res) => {
-    try {
-        const { search } = req.query; 
-        let query = {};
-        
-        if (search && search.trim() !== "") {
-            query = {
-                $or: [
-                    { userName: { $regex: search.trim(), $options: "i" } },
-                    { contact: { $regex: search.trim(), $options: "i" } },
-                    { eventName: { $regex: search.trim(), $options: "i" } },
-                    { roomNo: { $regex: search.trim(), $options: "i" } }
-                ]
-            };
-        }
-        
-        let registrations = await Registration.find(query).sort({ createdAt: -1 });
-        res.json(registrations);
-    } catch(err) {
-        res.status(500).json({ success: false, error: err.message });
+router.delete('/registrations/:id', verifyToken, async (req, res) => {
+  try {
+    const targetRecord = await Registration.findById(req.params.id);
+    if (!targetRecord) return res.status(404).json({ message: "Target document footprint not discovered." });
+
+    if (req.user.role !== 'admin' && targetRecord.userId.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Unauthorized action." });
     }
+
+    await Registration.findByIdAndDelete(req.params.id);
+    res.json({ message: "Registration deleted successfully." });
+  } catch (err) {
+    res.status(500).json({ message: "Internal fatal deletion pipeline errors." });
+  }
 });
 
-// 4. DELETE REGISTRATION BY ID
-router.delete('/registrations/:id', async (req, res) => {
-    try {
-        let registrationId = req.params.id;
-        await Registration.findByIdAndDelete(registrationId);
-        res.json({ success: true, message: "Registration Deleted Successfully" });
-    } catch(err) {
-        res.status(500).json({ success: false, error: err.message });
-    }
-});
 
+// UPDATE PROFILE
+router.put('/profile', verifyToken, async (req, res) => {
+  try {
+    const { name, email } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        name,
+        email
+      },
+      { new: true }
+    );
+
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(500).json({
+      message: "Profile update failed."
+    });
+  }
+});
 module.exports = router;

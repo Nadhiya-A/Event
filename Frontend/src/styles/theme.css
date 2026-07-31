@@ -1,0 +1,225 @@
+/* =========================================================
+   EventSphere Design System
+========================================================= */
+
+:root{
+
+  color-scheme: light;
+
+  /* ===========================
+     BRAND
+  =========================== */
+
+  --primary:#F97316;
+  --primary-hover:#EA580C;
+  --primary-light:#FB923C;
+  --accent:#FDBA74;
+
+  /* ===========================
+     BACKGROUNDS
+  =========================== */
+
+  --bg:#F8FAFC;
+  --bg-secondary:#F1F5F9;
+  --bg-tertiary:#E2E8F0;
+
+  --surface:#FFFFFF;
+  --surface-2:#F8FAFC;
+  --surface-3:#F1F5F9;
+  --surface-hover:#EDF2F7;
+
+  /* ===========================
+     TYPOGRAPHY
+  =========================== */
+
+  --heading:#0F172A;
+  --text:#1E293B;
+  --text-light:#64748B;
+  --text-muted:#94A3B8;
+  --text-disabled:#CBD5E1;
+
+  /* ===========================
+     BORDERS
+  =========================== */
+
+  --border:#E2E8F0;
+  --divider:#CBD5E1;
+
+  /* ===========================
+     TABLES
+  =========================== */
+
+  --table-header:#FFF7ED;
+  --table-row:#FFFFFF;
+  --table-row-hover:#FFF7ED;
+  --table-border:#E5E7EB;
+
+  /* ===========================
+     INPUTS
+  =========================== */
+
+  --input-bg:#FFFFFF;
+  --input-border:#CBD5E1;
+  --input-focus:#F97316;
+  --placeholder:#94A3B8;
+
+  /* ===========================
+     CARDS
+  =========================== */
+
+  --card:#FFFFFF;
+  --card-hover:#FFF7ED;
+  --card-border:#E2E8F0;
+
+  /* ===========================
+     STATUS
+  =========================== */
+
+  --success:#22C55E;
+  --warning:#F59E0B;
+  --danger:#EF4444;
+  --info:#3B82F6;
+
+  --success-bg:#DCFCE7;
+  --warning-bg:#FEF3C7;
+  --danger-bg:#FEE2E2;
+  --info-bg:#DBEAFE;
+
+  /* ===========================
+     GLASS
+  =========================== */
+
+  --glass:rgba(255,255,255,.55);
+  --glass-border:rgba(255,255,255,.35);
+
+  /* ===========================
+     CHARTS
+  =========================== */
+
+  --chart-grid:#E5E7EB;
+  --chart-axis:#64748B;
+  --chart-tooltip:#FFFFFF;
+
+  /* ===========================
+     SHADOWS
+  =========================== */
+
+  --shadow-sm:0 2px 8px rgba(15,23,42,.06);
+  --shadow:0 10px 30px rgba(15,23,42,.08);
+  --shadow-lg:0 20px 45px rgba(15,23,42,.15);
+
+  --transition:.30s ease;
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+html[data-theme="dark"]{
+
+  color-scheme:dark;
+
+  /* ===========================
+     BRAND
+  =========================== */
+
+  --primary:#F97316;
+  --primary-hover:#FB923C;
+  --primary-light:#FDBA74;
+  --accent:#FDBA74;
+
+  /* ===========================
+     BACKGROUNDS
+  =========================== */
+
+  --bg:#0F172A;
+  --bg-secondary:#162033;
+  --bg-tertiary:#1B2738;
+
+  --surface:#1E293B;
+  --surface-2:#243447;
+  --surface-3:#2C3E50;
+  --surface-hover:#31465D;
+
+  /* ===========================
+     TYPOGRAPHY
+  =========================== */
+
+  --heading:#FFFFFF;
+  --text:#F8FAFC;
+  --text-light:#CBD5E1;
+  --text-muted:#94A3B8;
+  --text-disabled:#64748B;
+
+  /* ===========================
+     BORDERS
+  =========================== */
+
+  --border:#334155;
+  --divider:#475569;
+
+  /* ===========================
+     TABLES
+  =========================== */
+
+  --table-header:#223043;
+  --table-row:#1E293B;
+  --table-row-hover:#2B3B50;
+  --table-border:#334155;
+
+  /* ===========================
+     INPUTS
+  =========================== */
+
+  --input-bg:#243447;
+  --input-border:#3B4B61;
+  --input-focus:#F97316;
+  --placeholder:#94A3B8;
+
+  /* ===========================
+     CARDS
+  =========================== */
+
+  --card:#1E293B;
+  --card-hover:#26384D;
+  --card-border:#334155;
+
+  /* ===========================
+     STATUS
+  =========================== */
+
+  --success:#22C55E;
+  --warning:#FACC15;
+  --danger:#F87171;
+  --info:#38BDF8;
+
+  --success-bg:rgba(34,197,94,.15);
+  --warning-bg:rgba(250,204,21,.15);
+  --danger-bg:rgba(248,113,113,.15);
+  --info-bg:rgba(56,189,248,.15);
+
+  /* ===========================
+     GLASS
+  =========================== */
+
+  --glass:rgba(30,41,59,.55);
+  --glass-border:rgba(255,255,255,.06);
+
+  /* ===========================
+     CHARTS
+  =========================== */
+
+  --chart-grid:#334155;
+  --chart-axis:#CBD5E1;
+  --chart-tooltip:#243447;
+
+  /* ===========================
+     SHADOWS
+  =========================== */
+
+  --shadow-sm:0 2px 8px rgba(0,0,0,.25);
+  --shadow:0 14px 40px rgba(0,0,0,.45);
+  --shadow-lg:0 24px 55px rgba(0,0,0,.65);
+
+  --transition:.30s ease;
+}

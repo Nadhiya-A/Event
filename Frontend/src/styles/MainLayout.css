@@ -1,0 +1,40 @@
+.app-shell{
+    display:flex;
+    min-height:100vh;
+    background:var(--bg);
+    transition:background .35s ease;
+}
+
+.main-workspace{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+    background:var(--bg);
+
+    transition:background .35s ease;
+
+}
+
+.page-content{
+
+    flex:1;
+
+    padding:10px 20px;
+
+    overflow:auto;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    transition:
+        background .35s ease,
+        color .35s ease;
+
+}

@@ -1,0 +1,488 @@
+/* =====================================================
+   EVENTSPHERE - ADD REGISTRATION
+===================================================== */
+
+:root{
+    --primary:#F97316;
+    --primary-light:#FB923C;
+    --card:#FFFFFF;
+    --text:#1F2937;
+    --muted:#64748B;
+    --border:#E5E7EB;
+}
+
+/* =====================================================
+PAGE
+===================================================== */
+
+.add-registration-page{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:18px;
+}
+
+.add-registration-card{
+    width:100%;
+    max-width:980px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:28px;
+    padding:34px 42px;
+    box-shadow:var(--shadow);
+    animation:fadeUp .35s ease;
+}
+
+/* =====================================================
+BACK BUTTON
+===================================================== */
+
+.add-back-button{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 18px;
+    margin-bottom:24px;
+
+    border:none;
+    border-radius:14px;
+
+    background:rgba(249,115,22,.10);
+    color:var(--primary);
+
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.add-back-button:hover{
+    background:var(--primary);
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+/* =====================================================
+HEADER
+===================================================== */
+
+.add-registration-header{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+}
+
+.add-registration-logo{
+    width:82px;
+    height:82px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #FFF0DE,
+        #FFD5A5
+    );
+
+    color:var(--primary);
+
+    box-shadow:
+        0 18px 40px rgba(249,115,22,.18);
+}
+
+.add-registration-header h1{
+    margin-top:16px;
+    font-size:2.2rem;
+    font-weight:800;
+    color:var(--heading);
+}
+
+.add-registration-header p{
+    margin-top:8px;
+    max-width:600px;
+    color:var(--text-light);
+    line-height:1.7;
+}
+
+.add-registration-divider{
+    width:100%;
+    height:1px;
+    background:var(--border);
+    margin:24px 0 30px;
+}
+
+/* =====================================================
+FORM
+===================================================== */
+
+.add-registration-form{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px 32px;
+}
+
+.add-field{
+    display:flex;
+    flex-direction:column;
+}
+
+.add-field-full{
+    grid-column:1/-1;
+}
+
+.add-field label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-bottom:10px;
+
+    font-size:15px;
+    font-weight:700;
+    color:var(--text);
+}
+
+.add-field label svg{
+    color:var(--primary);
+}
+
+.add-field input,
+.add-field select{
+    width:100%;
+    height:54px;
+
+    padding:0 18px;
+
+    border:2px solid var(--border);
+    border-radius:15px;
+
+    background:var(--surface);
+
+    color:var(--text);
+    font-size:15px;
+
+    transition:.3s;
+}
+
+.add-field input::placeholder{
+    color:var(--text-light);
+}
+
+.add-field input:focus,
+.add-field select:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:
+        0 0 0 4px rgba(249,115,22,.14);
+}
+/* =====================================================
+BUTTONS
+===================================================== */
+
+.add-registration-actions{
+    grid-column:1/-1;
+
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+
+    gap:16px;
+
+    margin-top:10px;
+}
+
+.add-cancel-btn{
+    height:50px;
+    min-width:150px;
+
+    border:none;
+    border-radius:14px;
+
+    background:var(--surface-2);
+    color:var(--text);
+
+    font-size:15px;
+    font-weight:700;
+
+    cursor:pointer;
+    transition:.3s;
+}
+
+.add-cancel-btn:hover{
+    transform:translateY(-2px);
+    background:var(--border);
+}
+
+.add-submit-btn{
+    height:50px;
+    min-width:240px;
+
+    border:none;
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #F97316,
+        #FB923C
+    );
+
+    color:#fff;
+
+    font-size:15px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 16px 32px rgba(249,115,22,.28);
+
+    transition:.3s;
+}
+
+.add-submit-btn:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 22px 40px rgba(249,115,22,.35);
+}
+
+/* =====================================================
+CAPACITY MODAL
+===================================================== */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(15,23,42,.45);
+    backdrop-filter:blur(5px);
+
+    z-index:999;
+}
+
+.capacity-modal{
+    width:450px;
+
+    background:var(--surface);
+
+    border-radius:26px;
+
+    border:1px solid var(--border);
+
+    padding:36px;
+
+    text-align:center;
+
+    box-shadow:
+        0 30px 70px rgba(15,23,42,.20);
+
+    animation:popup .25s ease;
+}
+
+.capacity-icon{
+    width:84px;
+    height:84px;
+
+    margin:0 auto 20px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:rgba(249,115,22,.10);
+
+    font-size:42px;
+}
+
+.capacity-modal h2{
+    color:var(--heading);
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.capacity-modal p{
+    color:var(--text-light);
+    line-height:1.8;
+}
+
+.capacity-info{
+    margin:24px 0;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:rgba(249,115,22,.08);
+
+    border:1px solid rgba(249,115,22,.18);
+}
+
+.capacity-info span{
+    color:var(--text-light);
+}
+
+.capacity-info h3{
+    margin-top:8px;
+
+    font-size:34px;
+
+    color:#F97316;
+}
+
+.capacity-btn{
+    width:100%;
+    height:50px;
+
+    border:none;
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #F97316,
+        #FB923C
+    );
+
+    color:#fff;
+
+    font-size:15px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.capacity-btn:hover{
+    transform:translateY(-2px);
+}
+/* =====================================================
+RESPONSIVE
+===================================================== */
+
+@media (max-width:900px){
+
+.add-registration-page{
+    padding:18px;
+}
+
+.add-registration-card{
+    padding:28px;
+}
+
+.add-registration-form{
+    grid-template-columns:1fr;
+    gap:22px;
+}
+
+.add-field-full{
+    grid-column:auto;
+}
+
+.add-registration-actions{
+    flex-direction:column-reverse;
+    gap:14px;
+}
+
+.add-submit-btn,
+.add-cancel-btn{
+    width:100%;
+}
+
+.capacity-modal{
+    width:95%;
+    padding:30px;
+}
+
+}
+
+@media (max-width:600px){
+
+.add-registration-page{
+    padding:12px;
+}
+
+.add-registration-card{
+    padding:22px;
+    border-radius:22px;
+}
+
+.add-registration-logo{
+    width:70px;
+    height:70px;
+}
+
+.add-registration-header h1{
+    font-size:1.8rem;
+}
+
+.add-registration-header p{
+    font-size:.92rem;
+}
+
+.add-back-button{
+    width:100%;
+    justify-content:center;
+}
+
+.capacity-modal{
+    padding:24px;
+}
+
+.capacity-icon{
+    width:72px;
+    height:72px;
+    font-size:36px;
+}
+
+.capacity-modal h2{
+    font-size:24px;
+}
+
+.capacity-info h3{
+    font-size:28px;
+}
+
+}
+
+/* =====================================================
+ANIMATIONS
+===================================================== */
+
+@keyframes fadeUp{
+
+from{
+    opacity:0;
+    transform:translateY(20px);
+}
+
+to{
+    opacity:1;
+    transform:translateY(0);
+}
+
+}
+
+@keyframes popup{
+
+from{
+    opacity:0;
+    transform:scale(.9);
+}
+
+to{
+    opacity:1;
+    transform:scale(1);
+}
+
+}

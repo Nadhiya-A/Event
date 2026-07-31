@@ -1,0 +1,236 @@
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.45);
+
+    backdrop-filter:blur(4px);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:999;
+
+    animation:fadeIn .25s;
+}
+
+.registrations-modal{
+
+    width:850px;
+
+    max-height:85vh;
+
+    overflow:hidden;
+
+    background:white;
+
+    border-radius:24px;
+
+    box-shadow:0 30px 70px rgba(0,0,0,.2);
+
+    animation:popup .3s;
+}
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:24px 30px;
+
+    border-bottom:1px solid #eee;
+}
+
+.modal-header h2{
+
+    color:#111827;
+}
+
+.close-btn{
+
+    border:none;
+
+    background:#fff4ec;
+
+    color:#ff6b00;
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.close-btn:hover{
+
+    background:#ff6b00;
+
+    color:white;
+}
+
+.search-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin:24px;
+
+    padding:14px 18px;
+
+    border-radius:16px;
+
+    background:#f8fafc;
+}
+
+.search-box input{
+
+    flex:1;
+
+    border:none;
+
+    background:transparent;
+
+    outline:none;
+
+    font-size:15px;
+}
+
+.modal-list{
+
+    padding:12px 24px 24px;
+
+    max-height:500px;
+
+    overflow-y:auto;
+
+    scrollbar-gutter:stable;
+
+}
+
+.modal-registration{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:20px 22px;
+
+    margin-bottom:14px;
+
+    border-radius:18px;
+
+    background:#fff;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+.modal-avatar{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    background:#fff4ec;
+
+    color:#ff6b00;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:700;
+
+    font-size:20px;
+}
+
+.modal-info{
+
+    flex:1;
+
+    margin-left:18px;
+}
+
+.modal-info h4{
+
+    margin-bottom:6px;
+
+    color:#111827;
+}
+
+.modal-info p{
+
+    color:#64748b;
+}
+
+.modal-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+}
+
+.ticket-pill{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    font-weight:600;
+
+    color:#475569;
+}
+
+@keyframes popup{
+
+    from{
+
+        transform:scale(.92);
+
+        opacity:0;
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+    }
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+    }
+
+    to{
+
+        opacity:1;
+    }
+}

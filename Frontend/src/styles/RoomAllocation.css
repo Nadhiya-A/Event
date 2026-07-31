@@ -1,0 +1,369 @@
+/* ===========================
+   ROOM ALLOCATION PAGE
+=========================== */
+
+.allocation-page{
+    display:flex;
+    flex-direction:column;
+    gap:28px;
+}
+
+/* ===========================
+   HERO
+=========================== */
+
+.allocation-hero{
+    background:linear-gradient(135deg,#f97316,#fb923c);
+    border-radius:28px;
+    padding:42px;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 18px 45px rgba(249,115,22,.25);
+}
+.allocation-hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+}
+.allocation-hero-icon{
+
+    position:absolute;
+
+    right:50px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:180px;
+
+    height:180px;
+
+    color:#fff;
+
+    opacity:.08;
+
+    z-index:1;
+
+}
+.allocation-hero::before{
+    content:"";
+    position:absolute;
+    width:240px;
+    height:240px;
+    background:rgba(255,255,255,.08);
+    border-radius:50%;
+    top:-90px;
+    right:-70px;
+}
+
+.allocation-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.18);
+
+    backdrop-filter:blur(12px);
+
+    color:#fff;
+
+    font-size:.92rem;
+
+    font-weight:700;
+
+    margin-bottom:22px;
+
+}
+.allocation-hero h1{
+    font-size:3rem;
+    margin-bottom:12px;
+}
+
+.allocation-hero p{
+    font-size:1.05rem;
+    opacity:.95;
+    max-width:650px;
+}
+/* ===========================
+   STATS
+=========================== */
+
+.allocation-stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+.allocation-stat-card{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:24px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    box-shadow:var(--shadow);
+
+    transition:.3s;
+
+}
+
+.allocation-stat-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.allocation-stat-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+}
+
+.allocation-stat-card h2{
+
+    font-size:2rem;
+
+    margin-bottom:6px;
+
+    color:var(--text);
+
+}
+
+.allocation-stat-card p{
+
+    color:var(--text-light);
+
+    font-weight:600;
+
+}
+/* ===========================
+   SEARCH
+=========================== */
+
+.allocation-toolbar{
+    display:flex;
+    justify-content:flex-end;
+}
+
+.allocation-search{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:0 18px;
+    width:340px;
+    height:52px;
+}
+
+.allocation-search svg{
+    color:var(--primary);
+}
+
+.allocation-search input{
+    flex:1;
+    background:none;
+    border:none;
+    outline:none;
+    color:var(--text);
+    font-size:15px;
+}
+
+/* ===========================
+   TABLE
+=========================== */
+
+.allocation-table-card{
+    background:var(--surface);
+    border-radius:24px;
+    border:1px solid var(--border);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.allocation-table-card table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.allocation-table-card th{
+    background:var(--surface-2);
+    padding:20px;
+    text-align:left;
+    font-size:14px;
+    font-weight:700;
+    color:var(--text-light);
+}
+
+.allocation-table-card td{
+    padding:18px 20px;
+    border-top:1px solid var(--border);
+}
+
+.allocation-table-card tbody tr{
+    transition:.25s;
+}
+
+.allocation-table-card tbody tr:hover{
+    background:rgba(249,115,22,.05);
+}
+
+/* ===========================
+   USER
+=========================== */
+
+.allocation-user,
+.allocation-room{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
+}
+
+.allocation-user svg,
+.allocation-room svg{
+    color:var(--primary);
+}
+
+/* ===========================
+   STATUS
+=========================== */
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.status.paid{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.status.pending{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+/* ===========================
+   BUTTON
+=========================== */
+
+.allocation-edit-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    background:rgba(249,115,22,.12);
+
+    color:var(--primary);
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.allocation-edit-btn:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:900px){
+
+.allocation-hero{
+    padding:30px;
+}
+
+.allocation-hero h1{
+    font-size:2.2rem;
+}
+
+.allocation-toolbar{
+    justify-content:center;
+}
+
+.allocation-search{
+    width:100%;
+}
+.allocation-stats{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+.allocation-table-card{
+    overflow-x:auto;
+}
+
+table{
+    min-width:900px;
+}
+
+}
+@media(max-width:600px){
+
+    .allocation-stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+}

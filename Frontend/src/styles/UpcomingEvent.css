@@ -1,0 +1,197 @@
+/* ==========================================================
+   EVENTSPHERE - UPCOMING EVENT
+========================================================== */
+
+.upcoming-event{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:20px;
+    box-shadow:var(--shadow);
+    transition:.35s ease;
+}
+
+.upcoming-event:hover{
+    box-shadow:var(--shadow-hover);
+}
+
+.upcoming-event h2{
+    color:var(--text);
+    font-size:28px;
+    font-weight:800;
+    margin-bottom:24px;
+}
+
+/* ==========================================================
+   CARD
+========================================================== */
+
+.upcoming-event-card{
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+}
+
+.upcoming-event-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:var(--shadow-hover);
+
+}
+
+.upcoming-event-card h3{
+
+    color:var(--text);
+
+    font-size:18px;
+
+    font-weight:700;
+
+    line-height:1.5;
+
+    margin:0;
+
+}
+
+/* ==========================================================
+   INFO
+========================================================== */
+
+.upcoming-event-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.upcoming-event-info span{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+    font-weight:500;
+
+}
+
+.upcoming-event-info svg{
+
+    color:var(--primary);
+
+    flex-shrink:0;
+
+}
+
+/* ==========================================================
+   BUTTON
+========================================================== */
+
+.upcoming-view-text{
+
+    margin-top:8px;
+
+    padding-top:18px;
+
+    border-top:1px solid var(--border);
+
+    color:var(--primary);
+
+    text-align:center;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+.upcoming-event-card:hover .upcoming-view-text{
+
+    letter-spacing:.5px;
+
+}
+
+/* ==========================================================
+   EMPTY
+========================================================== */
+
+.empty-event{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:70px 20px;
+
+    color:var(--text-light);
+
+}
+
+.empty-event svg{
+
+    color:var(--primary);
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:768px){
+
+.upcoming-event{
+
+padding:20px;
+
+}
+
+.upcoming-event-card{
+
+padding:18px;
+
+}
+
+.upcoming-event h2{
+
+font-size:1.8rem;
+
+}
+
+.upcoming-event-card h3{
+
+font-size:1.2rem;
+
+}
+
+}

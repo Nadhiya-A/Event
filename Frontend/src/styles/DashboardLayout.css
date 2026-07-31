@@ -1,0 +1,25 @@
+.dashboard-layout{
+
+    display:flex;
+
+    height:100vh;
+
+background:var(--bg);
+}
+
+.dashboard-content{
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+.dashboard-main{
+    flex:1;
+    overflow:auto;
+    padding:28px;
+}
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    align-items:start;
+    gap:24px;
+}
