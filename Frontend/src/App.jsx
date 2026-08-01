@@ -19,7 +19,7 @@ import Sidebar from "./components/layout/Sidebar";
 import "./styles/MainLayout.css";
 import AdminRegistrations from "./pages/AdminRegistrations";
 import RoomAllocation from "./pages/RoomAllocation";
-const API_URL = "http://localhost:3000/api/registrations";
+const API_URL = `${import.meta.env.VITE_API_URL}/registrations`;
 
 function App() {
 
@@ -76,7 +76,7 @@ useEffect(() => {
 
   const handleSignIn = async (credentials) => {
     try {
-      const res = await fetch('http://localhost:3000/api/auth/signin', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials)
@@ -100,8 +100,8 @@ useEffect(() => {
   };
 const handleSignup = async (userData) => {
   try {
-    const response = await fetch(
-      "http://localhost:3000/api/auth/signup",
+   const response = await fetch(
+  `${import.meta.env.VITE_API_URL}/auth/signup`,
       {
         method: "POST",
         headers: {
@@ -152,7 +152,9 @@ const handleSignup = async (userData) => {
 
   const fetchEventWorkspaceRecords = async () => {
     try {
-      const response = await authenticatedFetch("http://localhost:3000/api/events");
+const response = await authenticatedFetch(
+  `${import.meta.env.VITE_API_URL}/events`
+);
       if (response.ok) {
         const data = await response.json();
         setEvents(data);
