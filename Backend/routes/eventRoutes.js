@@ -9,7 +9,11 @@ router.get("/", async (req, res) => {
         const events = await Event.find();
         res.json(events);
     } catch (err) {
-        res.status(500).json({ error: "Failed to extract event profiles." });
+        console.error("❌ GET /api/events Error:", err);
+
+        res.status(500).json({
+            error: err.message
+        });
     }
 });
 

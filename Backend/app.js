@@ -12,8 +12,8 @@ var app = express();
 
 // --- 1. CORE CORS GUARD HOOK (Must be first to prevent browser blocks) ---
 app.use(cors({
-  origin: "http://localhost:5173", // Allows your React client dev server
-  credentials: true
+  origin: process.env.CLIENT_URL,
+  credentials: true,
 }));
 
 // --- 2. STANDARD EXPRESS MIDDLEWARE ---
